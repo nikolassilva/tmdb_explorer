@@ -4,6 +4,7 @@ import { useFavorites } from '../context/useFavorites'
 import { MovieCard } from '../components/MovieCard'
 import { sortFavorites, type FavoriteSortOption } from '../utils/sortFavorites'
 
+/** `/favorites` — persisted list with client-side sort and remove actions. */
 export function FavoritesPage(): JSX.Element {
   const { favorites, isFavorite, toggleFavorite, removeFavorite } = useFavorites()
   const [sort, setSort] = useState<FavoriteSortOption>('title-asc')
@@ -69,6 +70,7 @@ export function FavoritesPage(): JSX.Element {
   )
 }
 
+/** Decorative graphic for the empty favorites state. */
 function EmptyIllustration(): JSX.Element {
   return (
     <svg width="160" height="120" viewBox="0 0 160 120" aria-hidden className="text-slate-600">

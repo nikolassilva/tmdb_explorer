@@ -1,9 +1,11 @@
 import { Fragment, type ReactNode } from 'react'
 
+/** Escapes user-provided search text before embedding it in a RegExp. */
 export function escapeRegExp(text: string): string {
   return text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')
 }
 
+/** Wraps case-insensitive matches of `query` in `<mark>` for display in titles. */
 export function highlightTitle(title: string, query: string): ReactNode {
   const trimmed = query.trim()
   if (!trimmed) return title

@@ -1,7 +1,8 @@
 import { Outlet } from 'react-router-dom'
-import { getTmdbApiKey } from '../configureTmdb'
-import { Header } from './Header'
+import { getTmdbApiKey } from '../../configureTmdb'
+import { Header } from '../Header'
 
+/** Root chrome: header, optional API-key notice, and routed `<Outlet />`. */
 export function Layout(): JSX.Element {
   const hasKey = Boolean(getTmdbApiKey())
 

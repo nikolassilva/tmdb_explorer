@@ -8,6 +8,7 @@ import {
   normalizeMovie,
 } from './favoritesReducer'
 
+/** Holds favorites in memory, syncs to `localStorage`, and exposes actions via context. */
 export function FavoritesProvider({ children }: { children: ReactNode }): JSX.Element {
   const [favorites, dispatch] = useReducer(favoritesReducer, [], () => loadFavoritesFromStorage())
 
