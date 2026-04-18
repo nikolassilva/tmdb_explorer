@@ -4,6 +4,10 @@ import type { MovieSummary } from '../types/movie'
 
 type Mode = 'popular' | 'search'
 
+/**
+ * Paginated TMDB lists with append-on-scroll semantics.
+ * Resets when `enabled`, `mode`, or `query` change; uses a ref to avoid overlapping fetches.
+ */
 export function useInfiniteMovies(mode: Mode, query: string, enabled: boolean) {
   const [page, setPage] = useState(1)
   const [results, setResults] = useState<MovieSummary[]>([])
@@ -22,7 +26,7 @@ export function useInfiniteMovies(mode: Mode, query: string, enabled: boolean) {
       return
     }
 
-    let cancelled = false
+    let cancelled = false // ignore stale responses if deps change mid-flight (e.g. StrictMode)
     setResults([])
     setPage(1)
     setTotalPages(1)

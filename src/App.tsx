@@ -5,6 +5,7 @@ import { HomePage } from './pages/HomePage'
 import { MovieDetailPage } from './pages/MovieDetailPage'
 import { SearchPage } from './pages/SearchPage'
 
+/** Top-level route configuration nested under `Layout`. */
 export default function App(): JSX.Element {
   return (
     <Routes>

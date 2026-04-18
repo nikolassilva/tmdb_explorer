@@ -1,7 +1,9 @@
 import type { MovieSummary } from '../types/movie'
 
+/** Sort modes for the favorites grid (client-side only). */
 export type FavoriteSortOption = 'title-asc' | 'title-desc' | 'rating-desc' | 'rating-asc'
 
+/** Returns a new array sorted according to `option` (does not mutate `movies`). */
 export function sortFavorites(movies: MovieSummary[], option: FavoriteSortOption): MovieSummary[] {
   const copy = [...movies]
   switch (option) {

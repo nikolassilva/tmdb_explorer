@@ -6,6 +6,7 @@ import { InfiniteScrollSentinel } from '../components/InfiniteScrollSentinel'
 import { MovieCard } from '../components/MovieCard'
 import { useInfiniteMovies } from '../hooks/useInfiniteMovies'
 
+/** `/search?q=` — TMDB search with highlighted titles. */
 export function SearchPage(): JSX.Element {
   const [params] = useSearchParams()
   const query = params.get('q') ?? ''

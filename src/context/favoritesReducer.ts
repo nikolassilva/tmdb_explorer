@@ -1,5 +1,6 @@
 import type { MovieSummary } from '../types/movie'
 
+/** `localStorage` key for persisted favorites. */
 export const FAVORITES_STORAGE_KEY = 'tmdb-favorites'
 
 export type FavoritesAction =
@@ -7,6 +8,7 @@ export type FavoritesAction =
   | { type: 'TOGGLE'; movie: MovieSummary }
   | { type: 'REMOVE'; id: number }
 
+/** Pure reducer for the favorites list (also used in tests). */
 export function favoritesReducer(state: MovieSummary[], action: FavoritesAction): MovieSummary[] {
   switch (action.type) {
     case 'HYDRATE':
@@ -25,6 +27,7 @@ export function favoritesReducer(state: MovieSummary[], action: FavoritesAction)
   }
 }
 
+/** Strips unknown fields so stored JSON stays a stable `MovieSummary` shape. */
 export function normalizeMovie(movie: MovieSummary): MovieSummary {
   return {
     id: movie.id,
@@ -34,6 +37,7 @@ export function normalizeMovie(movie: MovieSummary): MovieSummary {
   }
 }
 
+/** Safe parse of favorites from `localStorage`; returns [] on invalid data. */
 export function loadFavoritesFromStorage(): MovieSummary[] {
   try {
     const raw = localStorage.getItem(FAVORITES_STORAGE_KEY)
@@ -46,6 +50,7 @@ export function loadFavoritesFromStorage(): MovieSummary[] {
   }
 }
 
+/** Runtime guard for items parsed from `localStorage`. */
 function isMovieSummary(value: unknown): value is MovieSummary {
   if (!value || typeof value !== 'object') return false
   const v = value as Record<string, unknown>

@@ -1,6 +1,7 @@
 import { useContext } from 'react'
 import { FavoritesContext, type FavoritesContextValue } from './favoritesContext'
 
+/** Must be used under `FavoritesProvider`. */
 export function useFavorites(): FavoritesContextValue {
   const ctx = useContext(FavoritesContext)
   if (!ctx) {

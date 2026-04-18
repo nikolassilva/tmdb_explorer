@@ -1,11 +1,13 @@
 import { type FormEvent, useEffect, useState } from 'react'
 import { Link, useLocation, useNavigate, useSearchParams } from 'react-router-dom'
+import { buildPathForSearchSubmit, readSearchTermFromUrl } from './header.utils'
 
+/** Sticky app header: branding, global search, favorites shortcut. */
 export function Header(): JSX.Element {
   const navigate = useNavigate()
   const location = useLocation()
   const [params] = useSearchParams()
-  const searchFromUrl = location.pathname === '/search' ? (params.get('q') ?? '') : ''
+  const searchFromUrl = readSearchTermFromUrl(location.pathname, params)
   const [term, setTerm] = useState(searchFromUrl)
 
   useEffect(() => {
@@ -14,12 +16,7 @@ export function Header(): JSX.Element {
 
   function onSubmit(e: FormEvent): void {
     e.preventDefault()
-    const q = term.trim()
-    if (!q) {
-      navigate('/')
-      return
-    }
-    navigate(`/search?q=${encodeURIComponent(q)}`)
+    navigate(buildPathForSearchSubmit(term))
   }
 
   return (

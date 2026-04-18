@@ -1,21 +1,9 @@
 import { Link } from 'react-router-dom'
-import type { MovieSummary } from '../types/movie'
-import { highlightTitle } from '../utils/highlight'
+import { HeartIcon, TrashIcon } from './MovieCard.icons'
+import type { MovieCardProps } from './MovieCard.types'
+import { movieCardTitleContent, posterUrl } from './movieCard.utils'
 
-function posterSrc(path: string | null): string | undefined {
-  if (!path) return undefined
-  return `https://image.tmdb.org/t/p/w300${path}`
-}
-
-type Props = {
-  movie: MovieSummary
-  isFavorite: boolean
-  onToggleFavorite: () => void
-  highlightQuery?: string
-  showTrash?: boolean
-  onRemove?: () => void
-}
-
+/** Poster tile with rating, favorite toggle, and optional remove-from-list control. */
 export function MovieCard({
   movie,
   isFavorite,
@@ -23,9 +11,9 @@ export function MovieCard({
   highlightQuery,
   showTrash,
   onRemove,
-}: Props): JSX.Element {
-  const src = posterSrc(movie.poster_path)
-  const titleContent = highlightQuery ? highlightTitle(movie.title, highlightQuery) : movie.title
+}: MovieCardProps): JSX.Element {
+  const src = posterUrl(movie.poster_path)
+  const titleContent = movieCardTitleContent(movie.title, highlightQuery)
 
   return (
     <article className="group relative flex flex-col overflow-hidden rounded-xl border border-slate-800 bg-slate-900/60 shadow-lg shadow-black/20 transition hover:border-slate-600">
@@ -79,32 +67,5 @@ export function MovieCard({
         ) : null}
       </div>
     </article>
-  )
-}
-
-function HeartIcon({ filled }: { filled: boolean }): JSX.Element {
-  return (
-    <svg width="20" height="20" viewBox="0 0 24 24" aria-hidden className={filled ? 'text-rose-400' : 'text-slate-200'}>
-      <path
-        fill={filled ? 'currentColor' : 'none'}
-        stroke="currentColor"
-        strokeWidth="1.6"
-        d="M12 21s-7.2-4.35-9.6-8.1C.6 9.9 2.1 6 6 6c1.95 0 3.45 1.05 4.5 2.55C11.55 7.05 13.05 6 15 6c3.9 0 5.4 3.9 3.6 6.9C16.2 16.65 12 21 12 21Z"
-      />
-    </svg>
-  )
-}
-
-function TrashIcon(): JSX.Element {
-  return (
-    <svg width="18" height="18" viewBox="0 0 24 24" aria-hidden className="text-current">
-      <path
-        fill="none"
-        stroke="currentColor"
-        strokeWidth="1.6"
-        strokeLinecap="round"
-        d="M9 3h6M4 7h16M6 7l1 14h10l1-14M10 11v6M14 11v6"
-      />
-    </svg>
   )
 }

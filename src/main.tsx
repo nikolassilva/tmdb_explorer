@@ -6,6 +6,7 @@ import { FavoritesProvider } from './context/FavoritesProvider'
 import './index.css'
 import App from './App.tsx'
 
+// TMDB key must be set before any API call (tests call `configureTmdb` themselves).
 configureTmdb(import.meta.env.VITE_TMDB_API_KEY ?? '')
 
 createRoot(document.getElementById('root')!).render(

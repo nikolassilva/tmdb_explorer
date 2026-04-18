@@ -5,6 +5,7 @@ import { getTmdbApiKey } from '../configureTmdb'
 import { useFavorites } from '../context/useFavorites'
 import type { MovieDetails } from '../types/movie'
 
+/** Prefer original backdrop; fall back to a large poster when backdrop is missing. */
 function heroImage(movie: MovieDetails): string | undefined {
   if (movie.backdrop_path) {
     return `https://image.tmdb.org/t/p/original${movie.backdrop_path}`
@@ -15,6 +16,7 @@ function heroImage(movie: MovieDetails): string | undefined {
   return undefined
 }
 
+/** `/movie/:id` — detail view and favorite toggle. */
 export function MovieDetailPage(): JSX.Element | null {
   const { id } = useParams()
   const movieId = Number(id)

@@ -4,6 +4,7 @@ import { InfiniteScrollSentinel } from '../components/InfiniteScrollSentinel'
 import { MovieCard } from '../components/MovieCard'
 import { useInfiniteMovies } from '../hooks/useInfiniteMovies'
 
+/** `/` — popular movies with infinite scroll. */
 export function HomePage(): JSX.Element {
   const hasKey = Boolean(getTmdbApiKey())
   const { isFavorite, toggleFavorite } = useFavorites()

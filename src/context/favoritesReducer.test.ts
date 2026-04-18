@@ -3,7 +3,7 @@ import type { MovieSummary } from '../types/movie'
 
 const sample: MovieSummary = {
   id: 1,
-  title: 'Filme',
+  title: 'Sample',
   poster_path: '/p.jpg',
   vote_average: 8.2,
 }
