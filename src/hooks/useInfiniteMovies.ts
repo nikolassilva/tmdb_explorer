@@ -1,14 +1,25 @@
 import { useCallback, useEffect, useRef, useState } from 'react'
-import { fetchPopularMovies, searchMovies } from '../api/tmdbApi'
+import { fetchDiscoverMoviesByGenre, fetchPopularMovies, searchMovies } from '../api/tmdbApi'
 import type { MovieSummary } from '../types/movie'
 
 type Mode = 'popular' | 'search'
 
+export type UseInfiniteMoviesOptions = {
+  /** When set on `popular` mode, uses `/discover/movie` with `with_genres` instead of `/movie/popular`. */
+  genreId?: number | null
+}
+
 /**
  * Paginated TMDB lists with append-on-scroll semantics.
- * Resets when `enabled`, `mode`, or `query` change; uses a ref to avoid overlapping fetches.
+ * Resets when `enabled`, `mode`, `query`, or `genreId` change; uses a ref to avoid overlapping fetches.
  */
-export function useInfiniteMovies(mode: Mode, query: string, enabled: boolean) {
+export function useInfiniteMovies(
+  mode: Mode,
+  query: string,
+  enabled: boolean,
+  options: UseInfiniteMoviesOptions = {},
+) {
+  const genreId = options.genreId ?? null
   const [page, setPage] = useState(1)
   const [results, setResults] = useState<MovieSummary[]>([])
   const [totalPages, setTotalPages] = useState(1)
@@ -43,7 +54,9 @@ export function useInfiniteMovies(mode: Mode, query: string, enabled: boolean) {
       try {
         const data =
           mode === 'popular'
-            ? await fetchPopularMovies(1)
+            ? genreId != null
+              ? await fetchDiscoverMoviesByGenre(genreId, 1)
+              : await fetchPopularMovies(1)
             : await searchMovies(query.trim(), 1)
         if (cancelled) return
         setResults(data.results)
@@ -66,7 +79,7 @@ export function useInfiniteMovies(mode: Mode, query: string, enabled: boolean) {
     return () => {
       cancelled = true
     }
-  }, [enabled, mode, query])
+  }, [enabled, mode, query, genreId])
 
   const loadMore = useCallback(async () => {
     if (!enabled || loadingRef.current) return
@@ -80,7 +93,9 @@ export function useInfiniteMovies(mode: Mode, query: string, enabled: boolean) {
     try {
       const data =
         mode === 'popular'
-          ? await fetchPopularMovies(nextPage)
+          ? genreId != null
+            ? await fetchDiscoverMoviesByGenre(genreId, nextPage)
+            : await fetchPopularMovies(nextPage)
           : await searchMovies(query.trim(), nextPage)
       setResults((prev) => [...prev, ...data.results])
       setPage(nextPage)
@@ -91,7 +106,7 @@ export function useInfiniteMovies(mode: Mode, query: string, enabled: boolean) {
       setLoading(false)
       loadingRef.current = false
     }
-  }, [enabled, mode, page, query, totalPages])
+  }, [enabled, mode, page, query, totalPages, genreId])
 
   const hasMore = page < totalPages
 

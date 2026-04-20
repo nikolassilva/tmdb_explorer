@@ -20,3 +20,9 @@ export interface PaginatedMovies {
   results: MovieSummary[]
   total_pages: number
 }
+
+/** Item from GET /genre/movie/list. */
+export interface MovieGenre {
+  id: number
+  name: string
+}
