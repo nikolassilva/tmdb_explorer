@@ -50,16 +50,32 @@ npm install
 
    Do not commit `.env` (it is already listed in `.gitignore`).
 
-### NPM scripts
+### Installation & execution scripts
+
+One-shot first-time setup (installs dependencies and creates `.env` from `.env.example` if missing):
+
+```bash
+npm run setup
+```
+
+Then edit `.env`, set `VITE_TMDB_API_KEY`, and start the dev server.
 
 | Command | Description |
 |---------|-------------|
+| `npm run setup` | Runs `npm install` then `scripts/setup-env.mjs` (copies `.env.example` → `.env` only when `.env` does not exist). |
 | `npm run dev` | Starts the Vite dev server (usually `http://localhost:5173`). |
+| `npm start` | Same as `npm run dev` (common convention for local development). |
 | `npm run build` | Production build (`tsc` + output in `dist`). |
 | `npm run preview` | Serves the `dist` folder locally after a build. |
 | `npm run lint` | Runs ESLint on the project. |
 | `npm test` | Runs the Jest unit test suite. |
 | `npm run test:serial` | Same tests in a single process (`jest --runInBand`), handy on low-resource machines. |
+
+You can also run only the env bootstrap after a manual `npm install`:
+
+```bash
+node scripts/setup-env.mjs
+```
 
 ### Development
 
@@ -76,4 +92,6 @@ npm run build
 npm run preview
 ```
 
-To deploy elsewhere, host the `dist` folder as a static site and configure environment variables for your platform (the TMDB key may be needed at build time or runtime depending on how you inject env vars).
+## Hosting
+
+**Live site (Vercel):** [https://tmdb-explorer-pied.vercel.app/](https://tmdb-explorer-pied.vercel.app/)
