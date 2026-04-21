@@ -1,15 +1,20 @@
 {
-  "name": "projeto",
+  "name": "tmdb_explorer",
   "private": true,
   "version": "0.0.0",
   "type": "module",
   "scripts": {
     "dev": "vite",
+    "start": "vite",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
+    "setup": "npm install && node scripts/setup-env.mjs",
     "test": "jest",
     "test:serial": "jest --runInBand"
+  },
+  "engines": {
+    "node": ">=18.0.0"
   },
   "dependencies": {
     "axios": "^1.15.0",
